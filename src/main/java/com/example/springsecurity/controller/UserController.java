@@ -3,9 +3,7 @@ package com.example.springsecurity.controller;
 import com.example.springsecurity.entity.Users;
 import com.example.springsecurity.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,6 +17,11 @@ public class UserController {
     @GetMapping("/users")
     public List<Users> getAllUsers(){
         return userService.findAll();
+    }
+
+    @PostMapping("/add")
+    public Users register (@RequestBody Users user) throws Exception {
+        return  userService.register(user);
     }
 
 }

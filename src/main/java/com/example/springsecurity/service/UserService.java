@@ -9,4 +9,5 @@ public interface UserService {
 
     public List<Users> findAll();
 
+    Users register(Users user) throws Exception;
 }
