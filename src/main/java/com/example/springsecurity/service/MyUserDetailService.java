@@ -22,6 +22,6 @@ public class MyUserDetailService implements UserDetailsService {
        if (user == null) {
            throw new UsernameNotFoundException("User not found");
        }
-        return null;
+        return new UserPrincipal(user);
     }
 }

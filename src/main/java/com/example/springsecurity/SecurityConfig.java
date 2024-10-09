@@ -1,19 +1,25 @@
 package com.example.springsecurity;
 
+import com.example.springsecurity.service.MyUserDetailService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.proxy.NoOp;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+    @Autowired
+    private MyUserDetailService userDetailService;
 
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -27,8 +33,11 @@ public class SecurityConfig {
         return http.build();
     }
 
-    @Bean
+   @Bean
     public AuthenticationProvider authenticationProvider(){
-        return null;
-    }
+       DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+       provider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
+       provider.setUserDetailsService(userDetailService);
+        return provider;
+   }
 }
