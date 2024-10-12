@@ -19,9 +19,14 @@ public class UserController {
         return userService.findAll();
     }
 
-    @PostMapping("/add")
+    @PostMapping("/register")
     public Users register (@RequestBody Users user) throws Exception {
         return  userService.register(user);
+    }
+
+    @PostMapping("/login")
+    public String login (@RequestBody Users user) throws Exception {
+       return userService.verify(user);
     }
 
 }
